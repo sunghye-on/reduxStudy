@@ -103,3 +103,97 @@ ReactDOM.render(
 );
 ```
 
+
+
+## src/components폴더
+
+* store에 직접 직접 접근하지 않고 props로만 값을 받아온다. 보통 ui를 제작하는 부분이다.
+
+### Counter.js
+
+```javascript
+import React from "react";
+function Counter({ number, diff, onIncrease, onDecrease, onSetDiff }) {
+  const onChange = (e) => {
+    onSetDiff(parseInt(e.target.value), 10);
+  };
+  return (
+    <div>
+      <h1>{number}</h1>
+      <div>
+        <input type="number" value={diff} onChange={onChange} />
+        <button onClick={onIncrease}>+</button>
+        <button onClick={onDecrease}>-</button>
+      </div>
+    </div>
+  );
+}
+
+export default Counter;
+
+```
+
+
+
+## src/containers폴더
+
+*  리덕스의 있는 상태를 조회하거나 액션을 디스패치할 수 있는 컴포넌트를 의미한다
+
+### CounterContainer.js
+
+```javascript
+import React from "react";
+import Counter from "../components/Counter";
+//상태를 조회하기위한 useSelector   dispatch를 위함
+import { useSelector, useDispatch } from "react-redux";
+//액션 생성함수를 불러와서 디스패치함
+import { increase, decrease, setDiff } from "../modules/counter";
+
+function CounterContainer() {
+  //useSelector를이용해서 해당 state의 값들을 객체향태로 얻어 낸뒤 비구조 할당으로 값을 바로 조회가능하도록만듬
+  const { number, diff } = useSelector((state) => ({
+    number: state.counter.number,
+    diff: state.counter.diff,
+  }));
+  const dispatch = useDispatch();
+
+  //미리 만들어 놓은 액션생성 함수를 이용하여 디스패치
+  // 호출되면 액션 객체가 만들어진다.
+  const onIncrease = () => dispatch(increase());
+  const onDecrease = () => dispatch(decrease());
+  const onSetDiff = (diff) => dispatch(setDiff(diff));
+
+  //이제 위에서 작업한 내용들을 Conter에 하나하나 잔달하면된다.
+  return (
+    <Counter
+      number={number}
+      diff={diff}
+      onIncrease={onIncrease}
+      onDecrease={onDecrease}
+      onSetDiff={onSetDiff}
+    />
+  );
+}
+
+export default CounterContainer;
+
+```
+
+
+
+## App.js
+
+* 우리가 만든 Container를 렌더링하자
+
+```javascript
+import React from "react";
+import CounterContainer from "./containers/CounterContainer";
+
+function App() {
+  return <CounterContainer />;
+}
+
+export default App;
+
+```
+
