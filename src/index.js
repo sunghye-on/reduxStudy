@@ -7,9 +7,11 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "./modules";
+//개발자도구에서 리덕스의 상태를 조회하거나 디스패치할 수 있고 디스패치된 액션들의 내역을 학인가능해진다.
+import { composeWithDevTools } from "redux-devtools-extension";
 
-//store만들기
-const store = createStore(rootReducer);
+//store만들기                                 .. 두번째 파라미터값으로 넣어준다.
+const store = createStore(rootReducer, composeWithDevTools());
 //잘나오는지 확인
 // console.log(store.getState());
 ReactDOM.render(
