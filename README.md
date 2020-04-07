@@ -217,11 +217,15 @@ TodoList에는 각각의 Todo가 존재하고
 
 TodoItem에는 해당 Todo를 done여부에 따라 보여준다. 
 
+#### React.memo
+
+ 컴포넌트의 props가 바뀌지 않았다면 리렌더링을 방지하여 컴포넌트의 리렌더링 성능을 최적화 해 줄 수 있는 React.memo함수로 3개의 컴포넌트를 처리
+
 ```javascript
 import React, { useState } from "react";
 
 //Todo를 보여주는 컴포넌트
-function TodoItem({ todo, onToggle }) {
+const TodoItem = React.memo(function TodoItem({ todo, onToggle }) {
   return (
     <li
       style={{
@@ -232,10 +236,10 @@ function TodoItem({ todo, onToggle }) {
       {todo.text}
     </li>
   );
-}
+});
 
 //Todo들의 리스트를 보여주는 컴포넌트
-function TodoList({ todos, onToggle }) {
+const TodoList = React.memo(function TodoList({ todos, onToggle }) {
   return (
     <ul>
       {todos.map((todo) => (
@@ -243,7 +247,7 @@ function TodoList({ todos, onToggle }) {
       ))}
     </ul>
   );
-}
+});
 
 //새로운 todo를 생성하기 위한 컴포넌트
 function Todos({ todos, onCreate, onToggle }) {
@@ -271,7 +275,7 @@ function Todos({ todos, onCreate, onToggle }) {
 }
 
 //Todos를 내보내준다
-export default Todos;
+export default React.memo(Todos);
 
 ```
 
@@ -345,4 +349,6 @@ function App() {
 
 export default App;
 ```
+
+
 

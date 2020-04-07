@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //Todo를 보여주는 컴포넌트
-function TodoItem({ todo, onToggle }) {
+const TodoItem = React.memo(function TodoItem({ todo, onToggle }) {
   return (
     <li
       style={{
@@ -12,10 +12,10 @@ function TodoItem({ todo, onToggle }) {
       {todo.text}
     </li>
   );
-}
+});
 
 //Todo들의 리스트를 보여주는 컴포넌트
-function TodoList({ todos, onToggle }) {
+const TodoList = React.memo(function TodoList({ todos, onToggle }) {
   return (
     <ul>
       {todos.map((todo) => (
@@ -23,7 +23,7 @@ function TodoList({ todos, onToggle }) {
       ))}
     </ul>
   );
-}
+});
 
 //새로운 todo를 생성하기 위한 컴포넌트
 function Todos({ todos, onCreate, onToggle }) {
@@ -51,4 +51,4 @@ function Todos({ todos, onCreate, onToggle }) {
 }
 
 //Todos를 내보내준다
-export default Todos;
+export default React.memo(Todos);
